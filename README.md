@@ -1,6 +1,7 @@
-**Entwickler:innen gesucht - sag uns Bescheid, wenn du mitmachen willst**
+**Entwickler:innen gesucht - sag uns Bescheid, wenn du mitmachen willst unter https://t.me/joinchat/Bt0tohxTyP9GeS7aJJFgdQ**
 
-**_developers wanted - let us know if you want to contribute_**
+**_developers wanted - let us know if you want to contribute at
+https://t.me/joinchat/Bt0tohxTyP9GeS7aJJFgdQ_**
 
 # [skei.pe](https://skei.pe)
 Die Skeipe - die online Eckkneipe | *the online corner pub*
