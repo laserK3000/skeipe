@@ -24,9 +24,13 @@ strict BYOB - bring-your-own booze policy ;)
 # Feature Wishlist
 ## non-technical
 multiple tables corresponding to conference rooms
+
 webpage that shows available tables and who is sitting there
+
 barkeeper function aka moderator
+
 *best drink* and *best dress* awards on a per evening basis
+
 a bar/Tresen for those that just pass by 
 
 ## technical
