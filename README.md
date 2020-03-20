@@ -1,4 +1,6 @@
-**developers wanted - let us know if you want to contribute**
+**Entwickler:innen gesucht - sag uns Bescheid, wenn du mitmachen willst**
+
+**_developers wanted - let us know if you want to contribute_**
 
 # [skei.pe](https://skei.pe)
 Die Skeipe - die online Eckkneipe | *the online corner pub*
