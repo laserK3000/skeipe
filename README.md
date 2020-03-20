@@ -4,7 +4,8 @@
 Die Skeipe - die online Eckkneipe | *the online corner pub*
 
 # Beschreibung *Description*
-Die Skeipe bringt deine Bar in den digitalen Raum. Sie it sowas wie Homeoffice für den/die Barkeeper:in. Die Funktion von Kneipen geht weit über das Liefern von Alkohol hinaus. Sie sind auch nicht nur Orte des Rausches, sondern erfüllen soziale Funktionen in unserer Gesellschaft, die nun bedingt durch die Schutzmaßnahmen gegen Covid-19 wegfallen.
+Die Skeipe bringt deine Bar in den digitalen Raum. Sie it soetwas wie Homeoffice für den/die Barkeeper:in.
+Die Funktion von Kneipen geht weit über das Liefern von Alkohol hinaus. Sie sind auch nicht nur Orte des Rausches, sondern erfüllen soziale Funktionen in unserer Gesellschaft, die nun bedingt durch die Schutzmaßnahmen gegen Covid-19 wegfallen.
 skei.pe will einen Teil dieser Funktionen durch digitale Technologie vorübergegend ersezten. 
 
 <!-- The Skeipe aims to transfer common pub live into the digital space. It's like homeoffice for your favorite pub. Pubs not only serve as suppliers of alcohol but fulfill a b -->
