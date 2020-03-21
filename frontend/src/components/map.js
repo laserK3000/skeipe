@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
 
+import { InfoBox } from './info-box'
 import { pubs } from '../helper/pubs'
 
 const Map = ReactMapboxGl({
@@ -56,9 +57,11 @@ const MapBox = () => {
       {pinInfo && <Popup coordinates={pinInfo.coordinates}>
         <div className="info">
           <div className="close" onClick={() => setPinInfo(null)}><div>x</div></div>
-          <img src={pinInfo.image} alt={pinInfo.name} />
-          <h3>{pinInfo.name}</h3>
-          <p>{pinInfo.link}</p>
+          <InfoBox
+            image={pinInfo.image}
+            headline={pinInfo.name}
+            link={pinInfo.link}
+          />
         </div>
       </Popup>}
       <style jsx>{`
@@ -79,6 +82,7 @@ const MapBox = () => {
         justify-content: center;
         align-items: center;
         font-size: 2em;
+        z-index: 5;
       }
 
   `}</style>
