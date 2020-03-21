@@ -39,7 +39,7 @@ const MapBox = () => {
       center={mapCenter}
       style="mapbox://styles/mapbox/streets-v9"
       containerStyle={{
-        height: 'calc(100vh - 4.5em)',
+        height: '100vh',
         width: '100vw'
       }}
     >
