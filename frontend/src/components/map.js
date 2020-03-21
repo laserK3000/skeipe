@@ -39,13 +39,14 @@ const MapBox = () => {
       center={mapCenter}
       style="mapbox://styles/mapbox/streets-v9"
       containerStyle={{
-        height: '100vh',
+        height: 'calc(100vh - 4.5em)',
         width: '100vw'
       }}
     >
       <Layer type="circle" paint={getCirclePaint}>
         {pubs.map((pub) => (
           <Feature
+            key={pub.name}
             coordinates={pub.coordinates}
             onMouseEnter={(e) => onToggleHover(e, "pointer")}
             onMouseLeave={(e) => onToggleHover(e, "")}
