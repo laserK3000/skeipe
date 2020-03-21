@@ -5,6 +5,7 @@ import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
 import {pubs} from '../helper/pubs'
 
 const Map = ReactMapboxGl({
+  minZoom: 8,
   accessToken:
     'pk.eyJ1IjoidG9iaW9iaSIsImEiOiJjazgxaGZwYTQwZ2F3M3RtczRodnRnOTE5In0.UtzN21VEExcNBBLikohQoA'
 });
@@ -15,12 +16,10 @@ const getCirclePaint = {
   'circle-opacity': 0.8
 };
 
-
 const MapBox = () => {
   const [mapCenter, setMapCenter] = useState([8.6817, 50.1114])
   const [mapZoom, setMapZoom] = useState([12])
   const [pinInfo, setPinInfo] = useState(null)
-
 
   const onToggleHover = ({ map }, cursor) => {
     map.getCanvas().style.cursor = cursor;
@@ -31,8 +30,6 @@ const MapBox = () => {
     setPinInfo(station)
     // setMapZoom([14]) //TODO: doesn' work parallel to center change
   }
-
-
 
   return (
     <Map
@@ -66,5 +63,3 @@ const MapBox = () => {
 }
 
 export { MapBox }
-
-
