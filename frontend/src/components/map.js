@@ -27,7 +27,7 @@ const MapBox = () => {
 
   const onToggleClick = (station) => {
     const [x, y] = station.coordinates
-    setMapCenter([x, y + 0.015])
+    setMapCenter([x, y])
     setPinInfo(station)
     // setMapZoom([14]) //TODO: doesn' work parallel to center change
   }
