@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
 
-import {pubs} from '../helper/pubs'
+import { pubs } from '../helper/pubs'
 
 const Map = ReactMapboxGl({
   minZoom: 8,
@@ -26,7 +26,8 @@ const MapBox = () => {
   }
 
   const onToggleClick = (station) => {
-    setMapCenter(station.coordinates)
+    const [x, y] = station.coordinates
+    setMapCenter([x, y + 0.015])
     setPinInfo(station)
     // setMapZoom([14]) //TODO: doesn' work parallel to center change
   }
@@ -42,7 +43,7 @@ const MapBox = () => {
       }}
     >
       <Layer type="circle" paint={getCirclePaint}>
-        {pubs.map((pub)=> (
+        {pubs.map((pub) => (
           <Feature
             coordinates={pub.coordinates}
             onMouseEnter={(e) => onToggleHover(e, "pointer")}
@@ -53,11 +54,34 @@ const MapBox = () => {
       </Layer>
 
       {pinInfo && <Popup coordinates={pinInfo.coordinates}>
-        <div>
+        <div className="info">
+          <div className="close" onClick={() => setPinInfo(null)}><div>x</div></div>
+          <img src={pinInfo.image} alt={pinInfo.name} />
           <h3>{pinInfo.name}</h3>
           <p>{pinInfo.link}</p>
         </div>
       </Popup>}
+      <style jsx>{`
+      .info {
+        position: relative;
+      }
+      .close {
+        cursor: pointer;
+        color: #ddd;
+        position: absolute;
+        right: -25px;
+        top: -25px;
+        width: 50px;
+        height: 50px;
+        background: #333;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+      }
+
+  `}</style>
     </Map>
   )
 }
