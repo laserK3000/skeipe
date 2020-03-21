@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import {Button} from '../components/button'
 
 const InfoBox = ({ image, headline, link }) => {
   return (
@@ -8,9 +9,8 @@ const InfoBox = ({ image, headline, link }) => {
       <img src={image} alt={headline} />
       <h3>{headline}</h3>
       <Link to={link}>
-        <a>Zur Kneipe</a>
+        <Button fullWidth>Klingel doch mal!</Button>
       </Link>
-
     </div>
   )
 }
