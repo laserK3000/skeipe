@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react'
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
+
+import {pubs} from '../helper/pubs'
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -16,8 +18,8 @@ const getCirclePaint = {
 
 const MapBox = () => {
   const [mapCenter, setMapCenter] = useState([8.6817, 50.1114])
-  const [mapZoom, setMapZoom] = useState([10])
-  const [pinInfo, setPinInfo] = useState({})
+  const [mapZoom, setMapZoom] = useState([12])
+  const [pinInfo, setPinInfo] = useState(null)
 
 
   const onToggleHover = ({ map }, cursor) => {
@@ -25,10 +27,12 @@ const MapBox = () => {
   }
 
   const onToggleClick = (station) => {
-    setMapCenter([8.6817, 50.1113])
+    setMapCenter(station.coordinates)
     setPinInfo(station)
     // setMapZoom([14]) //TODO: doesn' work parallel to center change
   }
+
+
 
   return (
     <Map
@@ -41,18 +45,26 @@ const MapBox = () => {
       }}
     >
       <Layer type="circle" paint={getCirclePaint}>
-        <Feature
-          coordinates={[8.6817, 50.1114,]}
-          onMouseEnter={(e) => onToggleHover(e, "pointer")}
-          onMouseLeave={(e) => onToggleHover(e, "")}
-          onClick={onToggleClick}
-        />
+        {pubs.map((pub)=> (
+          <Feature
+            coordinates={pub.coordinates}
+            onMouseEnter={(e) => onToggleHover(e, "pointer")}
+            onMouseLeave={(e) => onToggleHover(e, "")}
+            onClick={() => onToggleClick(pub)}
+          />
+        ))}
       </Layer>
+
+      {pinInfo && <Popup coordinates={pinInfo.coordinates}>
+        <div>
+          <h3>{pinInfo.name}</h3>
+          <p>{pinInfo.link}</p>
+        </div>
+      </Popup>}
     </Map>
   )
 }
 
 export { MapBox }
-
 
 

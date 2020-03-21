@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>skeip.pe</title>
+        <title>skei.pe</title>
       </Helmet>
       <Nav />
       <div>
