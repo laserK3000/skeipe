@@ -30,6 +30,10 @@ const Home = () => {
           width: 100%;
           z-index: 5;
         }
+        .hero__left {
+          flex-grow: 3;
+          margin-right: 15%;
+        }
         .notice {
           display: flex;
           position: absolute;
