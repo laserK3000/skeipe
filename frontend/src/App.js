@@ -14,7 +14,7 @@ function App() {
     <>
       <Helmet>
         <title>skei.pe</title>
-        <link rel="icon" type="image/png" href="(GENAUE PFADANGABE/DATEINAME.png"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Roboto&display=swap" rel="stylesheet" />
       </Helmet>
       <Router>
         <Switch>
