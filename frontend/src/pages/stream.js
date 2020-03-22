@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { pubs } from '../helper/pubs'
 import { BackgroundBox } from '../components/background-box'
 import { StreamOverlay } from '../components/stream-overlay'
@@ -18,7 +18,9 @@ const Stream = () => {
   return <div>
     <BackgroundBox className="stream-header">
       <h2 className="stream-header__headline">{pub.name}</h2>
-      <img className="stream-header__logo" src={skeipeIcon} alt="skeipe" />
+      <Link to="/">
+        <img className="stream-header__logo" src={skeipeIcon} alt="skeipe" />
+      </Link>
     </BackgroundBox>
     <div className="video">
       <video className="video-stream" autoPlay width="750">

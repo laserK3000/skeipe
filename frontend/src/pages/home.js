@@ -21,7 +21,7 @@ const Home = () => {
       <MapBox />
       <BackgroundBox className="notice">
         <img className="heart-icon" src={heartIcon} alt="" />
-        <p >Skei.pe ist ein gemeinnütziges Projekt, um deine Kneipen zu unterstützen.</p>
+        <p>Skei.pe ist ein soziales Projekt, um deine Kneipen zu unterstützen. - <a href="#">Als Kneipe anmelden</a></p>
       </BackgroundBox>
       <style jsx>{`
         .hero {
