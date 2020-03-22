@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { CigaretteIcon, BeerBottleIcon, ToiletPaperIcon, BeerMapIcon } from '../helper/svgIcons'
 import { Badge } from './badge'
 
-const StreamOverlay = () => {
+const StreamOverlay = ({ onPayViewOpen }) => {
   const [counter, setCounter] = useState(0)
 
   return <div className="stream-overlay">
     <div>
-      <div className="beer-map">
+      <div className="beer-map" onClick={() => onPayViewOpen(counter)}>
         <Badge counter={counter} />
         <div className="beer-map__background">
           <BeerMapIcon />
@@ -89,6 +90,13 @@ const StreamOverlay = () => {
 
   `}</style>
   </div>
+}
+
+StreamOverlay.propTypes = {
+  onPayViewOpen: PropTypes.func
+}
+StreamOverlay.defaultProps = {
+  onPayViewOpen: () => { }
 }
 
 export { StreamOverlay }

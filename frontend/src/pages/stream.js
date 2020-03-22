@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams, Link } from "react-router-dom";
 import { pubs } from '../helper/pubs'
 import { BackgroundBox } from '../components/background-box'
 import { StreamOverlay } from '../components/stream-overlay'
+import { PayView } from '../components/pay-view'
 import { skeipeIcon } from '../helper/base64Icons'
 
 const getPub = (id) => {
   return pubs.filter(pub => pub.id === id)[0]
 }
 
-
 const Stream = () => {
+  const [drankItems, setDrankItems] = useState([])
+  const [isPayViewOpen, setPayViewOpen] = useState(false)
   const { pubName } = useParams()
-  console.log("pubName", pubName)
   const pub = getPub(pubName)
 
   return <div>
@@ -28,7 +29,11 @@ const Stream = () => {
         <p>Sorry, your browser doesn't support embedded videos.</p>
       </video>
     </div>
-    <StreamOverlay />
+    <StreamOverlay onPayViewOpen={(ammount) => {
+      setPayViewOpen(true)
+      if (ammount) setDrankItems([{ name: "Bier", ammount, price: 3.5 }])
+    }} />
+    {isPayViewOpen && <PayView items={drankItems} onClose={() => setPayViewOpen(false)} />}
     <style jsx>{`
         .video-stream {
           width: 100vw;
