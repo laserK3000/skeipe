@@ -66,8 +66,8 @@ const StreamOverlay = () => {
       display: flex;
       flex-direction: column;
       left: 0;
-      top: 4em;
-      height: calc(100vh - 4em);
+      top: 7em;
+      height: calc(100vh - 7em);
       justify-content: center;
     }
     .stream-overlay > div {
