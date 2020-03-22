@@ -22,9 +22,11 @@ const MapBox = () => {
   const [mapCenter, setMapCenter] = useState([8.6817, 50.1114])
   const [mapZoom, setMapZoom] = useState([12])
   const [pinInfo, setPinInfo] = useState(null)
+  const [hoverInfo, setHoverInfo] = useState(null)
 
-  const onToggleHover = ({ map }, cursor) => {
+  const onToggleHover = ({ map }, cursor, info) => {
     map.getCanvas().style.cursor = cursor;
+    setHoverInfo(info)
   }
 
   const onToggleClick = (station) => {
@@ -53,12 +55,19 @@ const MapBox = () => {
           <Feature
             key={pub.name}
             coordinates={pub.coordinates}
-            onMouseEnter={(e) => onToggleHover(e, "pointer")}
-            onMouseLeave={(e) => onToggleHover(e, "")}
+            onMouseEnter={(e) => onToggleHover(e, "pointer", pub)}
+            onMouseLeave={(e) => onToggleHover(e, "", null)}
             onClick={() => onToggleClick(pub)}
           />
         ))}
       </Layer>
+      {hoverInfo && <Popup coordinates={hoverInfo.coordinates}>
+        <div className="info">
+          <h3>
+            {hoverInfo.name}
+          </h3>
+        </div>
+      </Popup>}
 
       {pinInfo && <Popup coordinates={pinInfo.coordinates}>
         <div className="info">
