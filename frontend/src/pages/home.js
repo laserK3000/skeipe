@@ -10,7 +10,7 @@ const Home = () => {
       <BackgroundBox className="hero">
         <div className="hero__left">
           <h1>SKEI.PE</h1>
-          <h3>Die online Kneipe deines Vertrauens</h3>
+          <h2>Die online Kneipe deines Vertrauens</h2>
           <p>Schön, dass du da bist. Wähle deine Lieblingskneipe aus und treffe dort deinen Stammtisch oder mache neue Bekanntschaften.</p>
           <Input type="text" size="35" placeholder="Suche deine Lieblingskneipe" />
         </div>
