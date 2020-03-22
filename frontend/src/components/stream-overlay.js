@@ -68,7 +68,7 @@ const StreamOverlay = () => {
       left: 0;
       top: 4em;
       height: calc(100vh - 4em);
-      // justify-content: space-evenly;
+      justify-content: center;
     }
     .stream-overlay > div {
       cursor: pointer;
@@ -79,6 +79,9 @@ const StreamOverlay = () => {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+    }
+    .stream-overlay > div:last-of-type {
+      border: none;
     }
     .stream-overlay > div:hover {
       background: #fff2;
