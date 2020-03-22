@@ -71,6 +71,9 @@ const MapBox = () => {
         </div>
       </Popup>}
       <style jsx>{`
+      .mapboxgl-map {
+        font-size: inherit;
+      }
       .mapboxgl-popup-anchor-left .mapboxgl-popup-tip{
         border-right-color:rgba(42, 56, 65, 0.98);
       }

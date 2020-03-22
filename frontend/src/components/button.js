@@ -11,7 +11,7 @@ const Button = ({ children, fullWidth }) => {
         border-radius: 7px;
         color: #153C56;
         cursor: pointer;
-        font-size: 1.5em;
+        font-size: 1em;
         outline: none;
         padding: .5em 1em;
         width: ${fullWidth ? "100%" : "auto"};
