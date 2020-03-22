@@ -7,6 +7,7 @@ import { pubs } from '../helper/pubs'
 import { beerIcon } from '../helper/base64Icons'
 
 const Map = ReactMapboxGl({
+  maxZoom: 18,
   minZoom: 8,
   accessToken:
     'pk.eyJ1IjoidG9iaW9iaSIsImEiOiJjazgxaGZwYTQwZ2F3M3RtczRodnRnOTE5In0.UtzN21VEExcNBBLikohQoA'
@@ -27,7 +28,8 @@ const MapBox = () => {
   }
 
   const onToggleClick = (station) => {
-    setMapCenter(station.coordinates)
+    // const [x,y] = station.coordinates
+    // setMapCenter([x,y +((0.002 * (18-mapZoom) )*.2)])
     setPinInfo(station)
     // setMapZoom([14]) //TODO: doesn' work parallel to center change
   }
@@ -62,25 +64,38 @@ const MapBox = () => {
         <div className="info">
           <div className="close" onClick={() => setPinInfo(null)}><div>x</div></div>
           <InfoBox
-            image={pinInfo.image}
             headline={pinInfo.name}
+            guestCount={pinInfo.guests}
             link={pinInfo.link}
           />
         </div>
       </Popup>}
       <style jsx>{`
+      .mapboxgl-popup-anchor-left .mapboxgl-popup-tip{
+        border-right-color:rgba(42, 56, 65, 0.98);
+      }
+      .mapboxgl-popup-anchor-right .mapboxgl-popup-tip{
+        border-left-color:rgba(42, 56, 65, 0.98);
+      }
+      .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{
+        border-top-color:rgba(42, 56, 65, 0.98);
+      }
+      .mapboxgl-popup-content{
+        color: #F8F5EE;
+        background: rgba(42, 56, 65, 0.98);
+      }
       .info {
         position: relative;
       }
       .close {
         cursor: pointer;
-        color: #ddd;
+        color: #153C56;
         position: absolute;
         right: -25px;
         top: -25px;
         width: 50px;
         height: 50px;
-        background: #333;
+        background: #F8F5EE;
         border-radius: 50%;
         display: flex;
         justify-content: center;

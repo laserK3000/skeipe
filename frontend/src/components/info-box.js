@@ -1,22 +1,34 @@
 import React from "react"
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {Button} from '../components/button'
+import { Button } from '../components/button'
 
-const InfoBox = ({ image, headline, link }) => {
+const InfoBox = ({ guestCount, headline, link }) => {
   return (
     <div className="info">
-      <img src={image} alt={headline} />
-      <h3>{headline}</h3>
+      <h2>{headline}</h2>
+      <ul className="info--list">
+        <li>
+          <p>{guestCount} Gäste</p>
+        </li>
+      </ul>
       <Link to={link}>
-        <Button fullWidth>Klingel doch mal!</Button>
+        <Button fullWidth>Kneipe beitreten</Button>
       </Link>
+      <style jsx>{`
+        .info {
+          padding: .25em .75em;
+        }
+        .info--list{
+          padding-left: 1.25em;
+        }
+      `}</style>
     </div>
   )
 }
 
 InfoBox.propTypes = {
-  image: PropTypes.string.isRequired,
+  guestCount: PropTypes.string.isRequired,
   headline: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired
 }
