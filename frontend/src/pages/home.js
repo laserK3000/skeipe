@@ -25,6 +25,7 @@ const Home = () => {
       </BackgroundBox>
       <style jsx>{`
         .hero {
+          border-radius: 0 0 20px 20px;
           display: flex;
           position: absolute;
           left: 0;

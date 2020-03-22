@@ -67,6 +67,8 @@ const MapBox = () => {
             headline={pinInfo.name}
             guestCount={pinInfo.guests}
             link={pinInfo.link}
+            isOpen={pinInfo.isOpen}
+            openingInfo={pinInfo.openingInfo}
           />
         </div>
       </Popup>}
