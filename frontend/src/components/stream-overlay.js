@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CigaretteIcon, BeerBottleIcon, ToiletPaperIcon, BeerMapIcon } from '../helper/svgIcons'
+import { Badge } from './badge'
 
 const StreamOverlay = () => {
+  const [counter, setCounter] = useState(0)
+
   return <div className="stream-overlay">
     <div>
       <div className="beer-map">
+        <Badge counter={counter} />
         <div className="beer-map__background">
           <BeerMapIcon />
         </div>
@@ -15,7 +19,7 @@ const StreamOverlay = () => {
         </div>
       </div>
     </div>
-    <div>
+    <div onClick={() => setCounter(counter + 1)}>
       <BeerBottleIcon style={{ fill: "white" }} width="100" height="100" />
       <p>Getränk hinzufügen</p>
     </div>
