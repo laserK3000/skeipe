@@ -3,7 +3,7 @@
 ## API Routen
 MUSS über https angesprochen werden
 
-### GET https://api.skei.pe/v1/get_bars_in_vicinity?lat=&lt;LAT>&long=&lt;LONG>&distance=&lt;DISTANCE>
+<pre>GET https://api.skei.pe/v1/get_bars_in_vicinity?lat=&lt;LAT>&long=&lt;LONG>&distance=&lt;DISTANCE></pre>
 
 Parameter:
 
@@ -17,9 +17,9 @@ Rückgabe:
 [{"opening_hours": "Su-Th 16:00-01:00, Fr-Sa 16:00-02:00", "operator": "Martin Eifler", "id": "node/3126151621", "lat": 52.3898105, "name": "Stadtteilkneipe Nowawes", "long": 13.0903197}]
 
 id, lat, long und name sind immer vorhanden.
-opening_hours nur bei manchen.
+opening_hours, operator, phone und website nur bei manchen.
 
-### PATCH https://api.skei.pe/v1/set_visitors
+<pre>PATCH https://api.skei.pe/v1/set_visitors</pre>
 
 {
     "visitors": {
