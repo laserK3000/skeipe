@@ -19,10 +19,15 @@ image.src = beerIcon;
 const images = ['beer', image];
 
 const MapBox = () => {
-  const [mapCenter, setMapCenter] = useState([8.6817, 50.1114])
+
+  const [mapCenter, setMapCenter] = useState([13.432050, 52.480728])
   const [mapZoom, setMapZoom] = useState([12])
   const [pinInfo, setPinInfo] = useState(null)
   const [hoverInfo, setHoverInfo] = useState(null)
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {setMapCenter([pos.coords.longitude, pos.coords.latitude])})
+  }
 
   const onToggleHover = ({ map }, cursor, info) => {
     map.getCanvas().style.cursor = cursor;
