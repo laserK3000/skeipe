@@ -19,8 +19,9 @@ image.src = beerIcon;
 const images = ['beer', image];
 
 const MapBox = () => {
-
-  const [mapCenter, setMapCenter] = useState([13.432050, 52.480728])
+  let lat = 52.480728
+  let long = 13.432050
+  const [mapCenter, setMapCenter] = useState([long, lat])
   const [mapZoom, setMapZoom] = useState([12])
   const [pinInfo, setPinInfo] = useState(null)
   const [hoverInfo, setHoverInfo] = useState(null)
@@ -28,6 +29,15 @@ const MapBox = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((pos) => {setMapCenter([pos.coords.longitude, pos.coords.latitude])})
   }
+
+  fetch("https://api.skei.pe/v1/get_bars_in_vicinity?lat=" + lat + "&long=" + long)
+    .then(res => res.json())
+    .then(response => {
+      console.log(response)
+  })
+  .catch(err => {
+    console.error("Kneipen search is not working")
+  });
 
   const onToggleHover = ({ map }, cursor, info) => {
     map.getCanvas().style.cursor = cursor;
