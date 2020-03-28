@@ -4,7 +4,7 @@ import React from 'react'
 const Badge = ({ counter }) => {
   return (<div className="badge">
     {counter}
-    <style jsx>{`
+    <style>{`
       .badge {
         position: absolute;
         top: 0;

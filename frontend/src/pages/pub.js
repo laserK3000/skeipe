@@ -21,7 +21,7 @@ const Pub = () => {
         <img className="pub-image" src={pub.image} alt={pub.name} />
         <p>Willkommen bei {pub.name}</p>
       </div>
-      <style jsx>{`
+      <style>{`
         .pub-image {
           width: 100%;
         }

@@ -4,7 +4,7 @@ const Input = ({ ...rest }) => {
   return (
     <>
       <input className="input" {...rest} />
-      <style jsx>{`
+      <style>{`
       .input::placeholder {
         color: #F8F5EEAA;
       }

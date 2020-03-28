@@ -21,7 +21,7 @@ const InfoBox = ({ guestCount, headline, link, isOpen, openingInfo }) => {
       <Link to={link}>
         <Button fullWidth>Kneipe beitreten</Button>
       </Link>
-      <style jsx>{`
+      <style>{`
         .info {
           padding: .25em .75em;
         }

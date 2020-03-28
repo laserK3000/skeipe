@@ -9,11 +9,12 @@ import {
 import { Pub } from './pages/pub'
 import { Home } from './pages/home'
 import { Stream } from './pages/stream'
+import { ApiServiceProvider } from './contexts/apiService';
 
 
 function App() {
   return (
-    <>
+    <ApiServiceProvider>
       <Helmet>
         <title>skei.pe</title>
         <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Roboto&family=Barrio&display=swap" rel="stylesheet" />
@@ -31,7 +32,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </>
+    </ApiServiceProvider>
   );
 }
 

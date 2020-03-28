@@ -6,7 +6,15 @@ import { Input } from '../components/input'
 
 const Home = () => {
   return (
-    <div>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    }}>
       <BackgroundBox className="hero">
         <div className="hero__left">
           <h1>SKEI.PE</h1>
@@ -23,13 +31,10 @@ const Home = () => {
         <img className="heart-icon" src={heartIcon} alt="" />
         <p>Skei.pe ist ein soziales Projekt, um deine Kneipen zu unterstützen. - <a href="#">Als Kneipe anmelden</a></p>
       </BackgroundBox>
-      <style jsx>{`
+      <style>{`
         .hero {
           border-radius: 0 0 20px 20px;
           display: flex;
-          position: absolute;
-          left: 0;
-          top: 0;
           width: 100%;
           z-index: 5;
         }

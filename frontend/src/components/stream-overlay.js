@@ -33,7 +33,7 @@ const StreamOverlay = ({ onPayViewOpen }) => {
       <p>Raucherpause</p>
     </div>
 
-    <style jsx>{`
+    <style>{`
     .beer-map {
       height: 150px;
       width: 150px;

@@ -34,7 +34,7 @@ const Stream = () => {
       if (ammount) setDrankItems([{ name: "Bier", ammount, price: 3.5 }])
     }} />
     {isPayViewOpen && <PayView items={drankItems} onClose={() => setPayViewOpen(false)} />}
-    <style jsx>{`
+    <style>{`
         .video-stream {
           width: 100vw;
         }
