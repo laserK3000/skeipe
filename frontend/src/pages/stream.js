@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import { useParams, Link } from "react-router-dom";
-import { pubs } from '../helper/pubs'
+import React, { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom';
+import { pubs_DEPRICATED } from '../helper/pubs_DEPRICATED'
 import { BackgroundBox } from '../components/background-box'
 import { StreamOverlay } from '../components/stream-overlay'
 import { PayView } from '../components/pay-view'
 import { skeipeIcon } from '../helper/base64Icons'
+// import '../libs/jitsi_external_api'
+import JitsiMeetExternalAPI from '../libs/jitsi_external_api'
+import MOCK_get_bars_in_vincity from '../MOCK_get_bars_in_vincity';
 
 const getPub = (id) => {
-  return pubs.filter(pub => pub.id === id)[0]
+  return MOCK_get_bars_in_vincity[0]
 }
 
 const Stream = () => {
@@ -15,29 +18,46 @@ const Stream = () => {
   const [isPayViewOpen, setPayViewOpen] = useState(false)
   const { pubName } = useParams()
   const pub = getPub(pubName)
+  const [jitsiApi, setJitsiApi] = useState(null)
 
-  return <div>
+  useEffect(() => {
+    const api = new JitsiMeetExternalAPI('jitsi.skei.pe', {
+      roomName: 'skeipe',
+      // width: "600px",
+      height: '600px',
+      parentNode: document.getElementById('jitsiroot')
+    })
+    setJitsiApi(api)
+  }, [])
+  return <div style={{
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
     <BackgroundBox className="stream-header">
       <h2 className="stream-header__headline">{pub.name}</h2>
       <Link to="/">
         <img className="stream-header__logo" src={skeipeIcon} alt="skeipe" />
       </Link>
     </BackgroundBox>
-    <div className="video">
-      <video className="video-stream" autoPlay width="750">
-        <source src="/jitsi-stream.mp4" type="video/mp4" />
-        <p>Sorry, your browser doesn't support embedded videos.</p>
-      </video>
+    <div style={{
+      display: 'flex',
+      minHeight: 0,
+    }}>
+      <StreamOverlay onPayViewOpen={(ammount) => {
+        setPayViewOpen(true)
+        if (ammount) setDrankItems([{ name: 'Bier', ammount, price: 3.5 }])
+      }} />
+      <div id="jitsiroot" style={{
+        flex: '1 1 1px'
+      }} />
     </div>
-    <StreamOverlay onPayViewOpen={(ammount) => {
-      setPayViewOpen(true)
-      if (ammount) setDrankItems([{ name: "Bier", ammount, price: 3.5 }])
-    }} />
     {isPayViewOpen && <PayView items={drankItems} onClose={() => setPayViewOpen(false)} />}
     <style>{`
-        .video-stream {
-          width: 100vw;
-        }
         html {
           background: #202D3A;
           min-height: 100vh;
@@ -46,7 +66,6 @@ const Stream = () => {
           align-items: center;
           display: flex;
           position: relative;
-          margin-bottom: -3em;
           width: 100%;
           padding: 1em 2em;
           border-radius: 0 0 1em 1em;

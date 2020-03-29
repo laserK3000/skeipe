@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom';
-import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature, Popup, Cluster, Marker } from 'react-mapbox-gl';
 import { GeolocateControl, NavigationControl } from 'mapbox-gl';
 
 import { InfoBox } from './info-box'
-import { pubs } from '../helper/pubs'
 import { beerIcon } from '../helper/base64Icons'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -69,8 +68,7 @@ const MapBox = () => {
         Math.abs(bounds.getNorth() - bounds.getSouth()),
         Math.abs(bounds.getEast() - bounds.getWest()),
       ))
-      // const allNewPubs = await apiService.getPubs(lng, lat, distance)
-      const allNewPubs = MOCK_get_bars_in_vincity
+      const allNewPubs = await apiService.getPubs(lng, lat, distance)
       const trueNewPubs = allNewPubs.filter(nP => (!pubs.find(p => (p.id === nP.id))))
       setPubs([...pubs, ...trueNewPubs]);
     } catch (e) {
@@ -138,7 +136,7 @@ const MapBox = () => {
           <InfoBox
             headline={pinInfo.name}
             guestCount={pinInfo.guests}
-            link={pinInfo.link}
+            link={'/stream/' + encodeURIComponent(pinInfo.name + pinInfo.id)}
             isOpen={pinInfo.isOpen}
             openingInfo={pinInfo.openingInfo}
           />

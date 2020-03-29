@@ -2,10 +2,10 @@ import React from 'react';
 import { Helmet } from "react-helmet";
 import { Nav } from '../components/nav'
 import { useParams } from "react-router-dom";
-import { pubs } from '../helper/pubs'
+import { pubs_DEPRICATED } from '../helper/pubs_DEPRICATED'
 
 const getPub = (id) => {
-  return pubs.filter(pub => pub.id === id)[0]
+  return pubs_DEPRICATED.filter(pub => pub.id === id)[0]
 }
 
 const Pub = () => {

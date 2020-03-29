@@ -1,4 +1,4 @@
-export const pubs = [
+export const pubs_DEPRICATED = [
   {
     id: "dieflunkerkiste",
     name: "Die Flunkerkiste",
