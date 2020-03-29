@@ -5,7 +5,7 @@ const Button = ({ children, fullWidth, inverted }) => {
   console.log("iverted", inverted)
   return <>
     <button className="button">{children}</button>
-    <style jsx>{`
+    <style>{`
       .button {
         background: ${inverted ? "#153C56" : "#F8F5EE"};
         border: none;

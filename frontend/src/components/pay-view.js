@@ -48,7 +48,7 @@ const PayView = ({ items, onClose }) => {
         </div>
       </div>
     </div>
-    <style jsx>{`
+    <style>{`
     .pay-actions{
       display: flex;
       justify-content: space-between;

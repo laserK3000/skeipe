@@ -9,21 +9,22 @@ import {
 import { Pub } from './pages/pub'
 import { Home } from './pages/home'
 import { Stream } from './pages/stream'
+import { ApiServiceProvider } from './contexts/apiService';
 
 
 function App() {
   return (
-    <>
+    <ApiServiceProvider>
       <Helmet>
         <title>skei.pe</title>
         <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Roboto&family=Barrio&display=swap" rel="stylesheet" />
       </Helmet>
       <Router>
         <Switch>
-          <Route path="/pub/:pubName">
+          <Route path="/pub/:pubId">
             <Pub />
           </Route>
-          <Route path="/stream/:pubName">
+          <Route path="/stream/:pubId">
             <Stream />
           </Route>
           <Route path="/">
@@ -31,7 +32,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </>
+    </ApiServiceProvider>
   );
 }
 

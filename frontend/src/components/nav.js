@@ -10,7 +10,7 @@ const Nav = () => {
       </Link>
     </div>
 
-    <style jsx>{`
+    <style>{`
       .nav {
         background: #fff9;
         top: 0;

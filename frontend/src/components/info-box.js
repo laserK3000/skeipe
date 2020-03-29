@@ -2,9 +2,9 @@ import React from "react"
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/button'
-import { GuestsIcon, ClockIcon } from '../helper/svgIcons'
+import { GuestsIcon } from '../helper/svgIcons'
 
-const InfoBox = ({ guestCount, headline, link, isOpen, openingInfo }) => {
+const InfoBox = ({ guestCount, headline, link }) => {
   return (
     <div className="info">
       <h2>{headline}</h2>
@@ -13,15 +13,15 @@ const InfoBox = ({ guestCount, headline, link, isOpen, openingInfo }) => {
           <GuestsIcon height="25" width="25" />
           <p>{guestCount} Gäste</p>
         </div>
-        <div className="info--list">
-          <ClockIcon height="25" width="25" />
-          <p>{isOpen ? "Geöffnet" : "Geschlossen"} {openingInfo && <span>({openingInfo})</span>}</p>
-        </div>
+        {/*<div className="info--list">*/}
+        {/*  <ClockIcon height="25" width="25" />*/}
+          {/*<p>{isOpen ? "Geöffnet" : "Geschlossen"} {openingInfo && <span>({openingInfo})</span>}</p>*/}
+        {/*</div>*/}
       </div>
       <Link to={link}>
         <Button fullWidth>Kneipe beitreten</Button>
       </Link>
-      <style jsx>{`
+      <style>{`
         .info {
           padding: .25em .75em;
         }
@@ -41,14 +41,11 @@ const InfoBox = ({ guestCount, headline, link, isOpen, openingInfo }) => {
 }
 
 InfoBox.propTypes = {
-  guestCount: PropTypes.string.isRequired,
+  guestCount: PropTypes.number.isRequired,
   headline: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  openingInfo: PropTypes.string
 }
 InfoBox.defaultProps = {
-  openingInfo: ""
 }
 
 export { InfoBox }
