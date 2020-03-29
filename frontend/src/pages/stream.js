@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import { BackgroundBox } from '../components/background-box'
 import { StreamOverlay } from '../components/stream-overlay'
 import { PayView } from '../components/pay-view'
@@ -20,44 +20,70 @@ const Stream = () => {
   const [pub, setPub] = useState(null);
   const apiService = useApiService();
   const [jitsiApi, setJitsiApi] = useState(null)
+  const history = useHistory();
 
-  const updateParticipants = useCallback((api) => {
-    const numberOfParticipants = api.getNumberOfParticipants();
+
+  const updateParticipants = useCallback(() => {
+    const numberOfParticipants = jitsiApi.getNumberOfParticipants();
 
   }, [])
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       const newPub = await apiService.getPub(decodeURIComponent(pubId));
       setPub(newPub)
     })()
   }, [apiService, pubId])
+
   useEffect(() => {
+
+    if (!pub) {
+      return;
+    }
     const api = new JitsiMeetExternalAPI('jitsi.skei.pe', {
       roomName: 'skeipe',
-      // width: "600px",
-      height: '600px',
       parentNode: document.getElementById('jitsiroot')
     })
 
     setJitsiApi(api);
 
-    const listener = () => updateParticipants(api)
+    return () => {
+      api.dispose();
+    }
 
-    api.addEventListeners({
-      'participantJoined': listener,
-      'participantKickedOut': listener,
-      'participantLeft': listener,
-      'readyToClose': listener,
+  }, [pub, updateParticipants])
+
+  useEffect(() => {
+    if (!jitsiApi) {
+      return;
+    }
+
+    jitsiApi.addEventListeners({
+      'participantJoined': updateParticipants,
+      'participantKickedOut': updateParticipants,
+      'participantLeft': updateParticipants,
     })
 
 
     return () => {
-      api.removeAllListeners(['participantJoined', 'participantKickedOut', 'participantLeft', 'readyToClose'])
-      api.dispose();
-      }
+      jitsiApi.removeAllListeners(['participantJoined', 'participantKickedOut', 'participantLeft', 'readyToClose'])
+    };
+  }, [jitsiApi, updateParticipants]);
+  useEffect(() => {
 
-  }, [])
+    if (!jitsiApi) {
+      return;
+    }
+
+    jitsiApi.on('readyToClose', () => {
+      history.push('/');
+    })
+
+    return () => {
+      jitsiApi.removeAllListeners(['readyToClose'])
+    }
+  }, [jitsiApi, history])
+
 
   return <div style={{
     position: 'absolute',
