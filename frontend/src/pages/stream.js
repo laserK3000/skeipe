@@ -4,14 +4,9 @@ import { BackgroundBox } from '../components/background-box'
 import { StreamOverlay } from '../components/stream-overlay'
 import { PayView } from '../components/pay-view'
 import { skeipeIcon } from '../helper/base64Icons'
-// import '../libs/jitsi_external_api'
 import JitsiMeetExternalAPI from '../libs/jitsi_external_api'
-import MOCK_get_bars_in_vincity from '../MOCK_get_bars_in_vincity';
 import { useApiService } from '../contexts/apiService';
 
-const getPub = (id) => {
-  return MOCK_get_bars_in_vincity[0]
-}
 
 const Stream = () => {
   const [drankItems, setDrankItems] = useState([])
@@ -23,10 +18,19 @@ const Stream = () => {
   const history = useHistory();
 
 
-  const updateParticipants = useCallback(() => {
-    const numberOfParticipants = jitsiApi.getNumberOfParticipants();
-
-  }, [])
+  const updateParticipants = useCallback(async () => {
+    const { _participants: jitsiParticipants } = jitsiApi;
+    const visitors = Object.keys(jitsiParticipants).reduce((red, participantId) => {
+      const participant = jitsiApi._participants[participantId];
+      const { displayName } = participant;
+      red.push({
+        id: participantId,
+        displayName,
+      });
+      return red
+    }, [])
+    await apiService.updatePubVisitors(pub.id, 'counter', visitors);
+  }, [apiService, pub, jitsiApi])
 
   useEffect(() => {
     (async () => {
@@ -41,7 +45,7 @@ const Stream = () => {
       return;
     }
     const api = new JitsiMeetExternalAPI('jitsi.skei.pe', {
-      roomName: 'skeipe',
+      roomName: ('skeipe_' + pub.id + '_counter').replace(/[^0-9a-z]/gi, ''),
       parentNode: document.getElementById('jitsiroot')
     })
 
@@ -51,7 +55,7 @@ const Stream = () => {
       api.dispose();
     }
 
-  }, [pub, updateParticipants])
+  }, [pub])
 
   useEffect(() => {
     if (!jitsiApi) {

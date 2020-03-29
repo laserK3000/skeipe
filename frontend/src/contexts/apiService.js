@@ -25,9 +25,24 @@ export const ApiServiceProvider = ({ children }) => {
     });
     return response[0];
   }, [])
+
+  const updatePubVisitors = useCallback(async (pubId, tableName, visitors) => {
+    await makeApiRequest('/set_visitors', {
+      method: 'PATCH',
+      body: {
+        id: pubId,
+        table: {
+          tableName,
+          visitors,
+        }
+      }
+    });
+  }, [])
+
   const value = {
     getPubs,
     getPub,
+    updatePubVisitors,
   };
 
   return (

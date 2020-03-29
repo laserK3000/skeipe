@@ -3,6 +3,7 @@ import { MapBox } from '../components/map'
 import { BackgroundBox } from '../components/background-box'
 import { skeipeIcon, heartIcon } from '../helper/base64Icons'
 import { Input } from '../components/input'
+import txt from '../imprintText';
 
 const Home = () => {
   return (
@@ -29,7 +30,13 @@ const Home = () => {
       <MapBox />
       <BackgroundBox className="notice">
         <img className="heart-icon" src={heartIcon} alt="" />
-        <p>Skei.pe ist ein soziales Projekt, um deine Kneipen zu unterstützen. - <a href="#">Als Kneipe anmelden</a></p>
+        <p>Skei.pe ist ein soziales Projekt, um deine Kneipen zu unterstützen. - <a href="#">Als Kneipe anmelden</a> - <a onClick={() => {
+          const win = window.open(
+            "",
+            "Impressum",
+            "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200,top="+(window.screen.height-400)+",left="+(window.screen.width-840));
+          win.document.body.innerHTML = txt;
+        }}>Impressum</a></p>
       </BackgroundBox>
       <style>{`
         .hero {

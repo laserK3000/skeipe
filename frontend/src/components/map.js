@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import ReactDOM from 'react-dom';
-import ReactMapboxGl, { Layer, Feature, Popup, Cluster, Marker } from 'react-mapbox-gl';
+import React, { useState } from 'react'
+import ReactMapboxGl, { Popup } from 'react-mapbox-gl';
 import { GeolocateControl, NavigationControl } from 'mapbox-gl';
 
 import { InfoBox } from './info-box'
@@ -13,7 +12,6 @@ import 'mapbox-gl/dist/svg/mapboxgl-ctrl-zoom-in.svg';
 import 'mapbox-gl/dist/svg/mapboxgl-ctrl-zoom-out.svg';
 import { useApiService } from '../contexts/apiService';
 
-import MOCK_get_bars_in_vincity from '../MOCK_get_bars_in_vincity';
 
 const Map = ReactMapboxGl({
   maxZoom: 18,
@@ -41,13 +39,28 @@ const MapBox = () => {
   const [pubs, setPubs] = useState([])
 
 
-  const onToggleHover = ({ map }, cursor, info) => {
-    map.getCanvas().style.cursor = cursor;
-    setHoverInfo(info)
+  const onToggleHover = (id, lng, lat, numVisitors, name) => {
+
+    if (!id) {
+      setHoverInfo(null);
+      return;
+    }
+    setHoverInfo({
+      lng,
+      lat,
+      numVisitors,
+      name,
+    })
   }
 
-  const onToggleClick = (pub) => {
-    setPinInfo(pub)
+  const onToggleClick = (id, lng, lat, numVisitors, name) => {
+    setPinInfo({
+      id,
+      lng,
+      lat,
+      numVisitors,
+      name,
+    })
   }
 
   // const moveToPub = useCallback((pub) => {
@@ -58,25 +71,25 @@ const MapBox = () => {
   //
   //   }, [])
   // })
-
-  const onMoveEnd = useCallback(async (map) => {
-    try {
-
-      const { lng, lat } = map.getCenter()
-      const bounds = map.getBounds()
-      const distance = Math.ceil(Math.max(
-        Math.abs(bounds.getNorth() - bounds.getSouth()),
-        Math.abs(bounds.getEast() - bounds.getWest()),
-      ))
-      const allNewPubs = await apiService.getPubs(lng, lat, distance)
-      const trueNewPubs = allNewPubs.filter(nP => (!pubs.find(p => (p.id === nP.id))))
-      setPubs([...pubs, ...trueNewPubs]);
-    } catch (e) {
-      // todo error handling
-      console.error(e);
-    }
-
-  }, [apiService, pubs])
+  //
+  // const onMoveEnd = useCallback(async (map) => {
+  //   try {
+  //
+  //     const { lng, lat } = map.getCenter()
+  //     const bounds = map.getBounds()
+  //     const distance = Math.ceil(Math.max(
+  //       Math.abs(bounds.getNorth() - bounds.getSouth()),
+  //       Math.abs(bounds.getEast() - bounds.getWest()),
+  //     ))
+  //     const allNewPubs = await apiService.getPubs(lng, lat, distance)
+  //     const trueNewPubs = allNewPubs.filter(nP => (!pubs.find(p => (p.id === nP.id))))
+  //     setPubs([...pubs, ...trueNewPubs]);
+  //   } catch (e) {
+  //     // todo error handling
+  //     console.error(e);
+  //   }
+  //
+  // }, [apiService, pubs])
 
   return (
     <Map
@@ -88,7 +101,6 @@ const MapBox = () => {
         width: '100%',
         outline: 'none',
       }}
-      onMoveEnd={onMoveEnd}
       onStyleLoad={(map) => {
         map.addControl(
           new GeolocateControl({
@@ -101,44 +113,28 @@ const MapBox = () => {
         );
         map.addControl(new NavigationControl(
         ));
-        onMoveEnd(map);
+
+        initPubs(map, onToggleHover, onToggleClick)
 
       }}
     >
-      <Layer
-        type="symbol"
-        layout={{ 'icon-image': 'beer' }}
-        images={images}
-      >
-        {pubs.map((pub) => (
-          <Feature
-            key={pub.name}
-            coordinates={[pub.long, pub.lat]}
-            onMouseEnter={(e) => onToggleHover(e, 'pointer', pub)}
-            onMouseLeave={(e) => onToggleHover(e, '', null)}
-            onClick={() => onToggleClick(pub)}
-          />
-        ))}
-      </Layer>
-      {hoverInfo && <Popup coordinates={[hoverInfo.long, hoverInfo.lat]}>
+      {hoverInfo && <Popup coordinates={[hoverInfo.lng, hoverInfo.lat]}>
         <div className="info">
           <h3>
-            {hoverInfo.name}
+            {hoverInfo.name} ({hoverInfo.numVisitors})
           </h3>
         </div>
       </Popup>}
 
-      {pinInfo && <Popup coordinates={[pinInfo.long, pinInfo.lat]}>
+      {pinInfo && <Popup coordinates={[pinInfo.lng, pinInfo.lat]}>
         <div className="info">
           <div className="close" onClick={() => setPinInfo(null)}>
             <div>x</div>
           </div>
           <InfoBox
             headline={pinInfo.name}
-            guestCount={pinInfo.guests}
+            guestCount={pinInfo.numVisitors}
             link={'/stream/' + encodeURIComponent(pinInfo.id)}
-            isOpen={pinInfo.isOpen}
-            openingInfo={pinInfo.openingInfo}
           />
         </div>
       </Popup>}
@@ -184,4 +180,140 @@ const MapBox = () => {
   )
 }
 
+function initPubs(map, onToggleHover, onToggleClick) {
+  map.addSource('pubs', {
+    type: 'geojson',
+    data:
+      'https://skeipe-static.s3.eu-central-1.amazonaws.com/geojson/kneipen.geojson',
+    cluster: true,
+    clusterMaxZoom: 14, // Max zoom to cluster points on
+    clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+  });
+
+  map.addLayer({
+    id: 'clusters',
+    type: 'circle',
+    source: 'pubs',
+    filter: ['has', 'point_count'],
+    paint: {
+// Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+// with three steps to implement three types of circles:
+//   * Blue, 20px circles when point count is less than 100
+//   * Yellow, 30px circles when point count is between 100 and 750
+//   * Pink, 40px circles when point count is greater than or equal to 750
+      'circle-color': [
+        'step',
+        ['get', 'point_count'],
+        '#51bbd6',
+        100,
+        '#f1f075',
+        750,
+        '#f28cb1'
+      ],
+      'circle-radius': [
+        'step',
+        ['get', 'point_count'],
+        20,
+        100,
+        30,
+        750,
+        40
+      ]
+    }
+  });
+
+  map.addLayer({
+    id: 'cluster-count',
+    type: 'symbol',
+    source: 'pubs',
+    filter: ['has', 'point_count'],
+    layout: {
+      'text-field': '{point_count_abbreviated}',
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12
+    }
+  });
+
+  map.addImage(...images);
+  map.addLayer({
+    id: 'unclustered-point',
+    type: 'symbol',
+    source: 'pubs',
+    filter: ['!', ['has', 'point_count']],
+    layout: { 'icon-image': 'beer'},
+
+  });
+
+  map.on('click', 'clusters', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ['clusters']
+    });
+    var clusterId = features[0].properties.cluster_id;
+    map.getSource('pubs').getClusterExpansionZoom(
+      clusterId,
+      function (err, zoom) {
+        if (err) return;
+
+        map.easeTo({
+          center: features[0].geometry.coordinates,
+          zoom: zoom
+        });
+      }
+    );
+  });
+
+// When a click event occurs on a feature in
+// the unclustered-point layer, open a popup at
+// the location of the feature, with
+// description HTML from its properties.
+  map.on('click', 'unclustered-point', function (e) {
+
+    const { features: [ feature ] } = e;
+    const { geometry: { coordinates: [lng, lat] }, properties: { '@id': id, name, visitors } } = feature
+
+// Ensure that if the map is zoomed out such that
+// multiple copies of the feature are visible, the
+// popup appears over the copy being pointed to.
+//     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+//       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+//     }
+
+    console.log(feature.properties)
+    onToggleClick(id, lng, lat, getNumVisitors(visitors), name)
+  });
+
+  map.on('mouseenter', 'unclustered-point', function (e) {
+    const { features: [ feature ] } = e;
+    const { geometry: { coordinates: [lng, lat] }, properties: { '@id': id, name, visitors } } = feature
+
+    map.getCanvas().style.cursor = 'pointer';
+    onToggleHover(id, lng, lat, getNumVisitors(visitors), name)
+  });
+  map.on('mouseleave', 'unclustered-point', function () {
+    map.getCanvas().style.cursor = '';
+    onToggleHover()
+  });
+
+
+  map.on('mouseenter', 'clusters', function () {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+  map.on('mouseleave', 'clusters', function () {
+    map.getCanvas().style.cursor = '';
+  });
+}
+
+function getNumVisitors(visitors) {
+  let numVisitors = 0
+  if (visitors) {
+    visitors = JSON.parse(visitors)
+  }
+  if (visitors && visitors.tables) {
+    numVisitors = Object.keys(visitors.tables).reduce((red, tableId) => {
+      const { visitors: tableVisitors } = visitors.tables[tableId];
+      return red += tableVisitors ? tableVisitors.length : 0;
+    }, 0)
+  }
+  return numVisitors
+}
 export { MapBox }
