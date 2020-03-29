@@ -1,7 +1,5 @@
 /* eslint-disable */
-!function (e, t) {
-  'object' == typeof exports && 'object' == typeof module ? module.exports = t() : 'function' == typeof define && define.amd ? define([], t) : 'object' == typeof exports ? exports.JitsiMeetExternalAPI = t() : e.JitsiMeetExternalAPI = t()
-}(window, (function () {
+const e = (function () {
   return function (e) {
     var t = {};
 
@@ -975,5 +973,7 @@
       }
     }
   }])
-}));
+});
+
+export default e()
 //# sourceMappingURL=jitsi_external_api.min.map
