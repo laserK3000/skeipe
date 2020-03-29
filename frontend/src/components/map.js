@@ -136,7 +136,7 @@ const MapBox = () => {
           <InfoBox
             headline={pinInfo.name}
             guestCount={pinInfo.guests}
-            link={'/stream/' + encodeURIComponent(pinInfo.name + pinInfo.id)}
+            link={'/stream/' + encodeURIComponent(pinInfo.id)}
             isOpen={pinInfo.isOpen}
             openingInfo={pinInfo.openingInfo}
           />

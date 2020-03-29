@@ -17,8 +17,17 @@ export const ApiServiceProvider = ({ children }) => {
     return response;
   }, []);
 
+  const getPub = useCallback(async (id) => {
+    const response = await makeApiRequest('/find_bar', {
+      queryParams: {
+        id: id,
+      }
+    });
+    return response[0];
+  }, [])
   const value = {
     getPubs,
+    getPub,
   };
 
   return (

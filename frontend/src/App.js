@@ -21,10 +21,10 @@ function App() {
       </Helmet>
       <Router>
         <Switch>
-          <Route path="/pub/:pubName">
+          <Route path="/pub/:pubId">
             <Pub />
           </Route>
-          <Route path="/stream/:pubName">
+          <Route path="/stream/:pubId">
             <Stream />
           </Route>
           <Route path="/">
