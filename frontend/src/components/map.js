@@ -178,17 +178,13 @@ const MapBox = () => {
   )
 }
 
-var getGeoJSONdata = async function() {
-  return await fetch('https://skei.pe/geojson/kneipen.geojson').then((res) => {
-    return res.json()
-  })
-}
+var getGeoJSONdata = fetch('https://skei.pe/geojson/kneipen.geojson').then((res) => { return res.json() })
 
 async function initPubs(map, onToggleHover, onToggleClick) {
 
  map.addSource('pubs', {
   type: 'geojson',
-  data: await getGeoJSONdata(),
+  data: await getGeoJSONdata.then((res) => { return res}),
   cluster: true,
   clusterMaxZoom: 14, // Max zoom to cluster points on
   clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)

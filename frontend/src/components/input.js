@@ -9,7 +9,7 @@ class Input extends Component {
   }
 
   componentDidMount() {
-    getGeoJSONdata().then((res) => {
+    getGeoJSONdata.then((res) => {
       this.setState({ data: res["features"].map(kneipe => ({ key: kneipe.id, value: kneipe.properties["addr:city"] ? kneipe.properties.name + " (" + kneipe.properties["addr:city"] + ")" : kneipe.properties.name , kneipe: kneipe}))});
     })
   }
