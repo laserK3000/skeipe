@@ -21,14 +21,12 @@ const Map = ReactMapboxGl({
 
 });
 
-
 const image = new Image();
 // https://base64.guru/converter/encode/image/svg
 image.src = beerIcon;
 const images = ['beer', image];
 
 const MapBox = () => {
-
 
   const apiService = useApiService();
 
@@ -180,15 +178,21 @@ const MapBox = () => {
   )
 }
 
-function initPubs(map, onToggleHover, onToggleClick) {
-  map.addSource('pubs', {
-    type: 'geojson',
-    data:
-      'https://skeipe-static.s3.eu-central-1.amazonaws.com/geojson/kneipen.geojson',
-    cluster: true,
-    clusterMaxZoom: 14, // Max zoom to cluster points on
-    clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
-  });
+var getGeoJSONdata = async function() {
+  return await fetch('https://skei.pe/geojson/kneipen.geojson').then((res) => {
+    return res.json()
+  })
+}
+
+async function initPubs(map, onToggleHover, onToggleClick) {
+
+ map.addSource('pubs', {
+  type: 'geojson',
+  data: await getGeoJSONdata(),
+  cluster: true,
+  clusterMaxZoom: 14, // Max zoom to cluster points on
+  clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+});
 
   map.addLayer({
     id: 'clusters',
@@ -316,4 +320,4 @@ function getNumVisitors(visitors) {
   }
   return numVisitors
 }
-export { MapBox }
+export { MapBox, getGeoJSONdata }

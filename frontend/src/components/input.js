@@ -1,27 +1,41 @@
-import React from 'react'
+import React, { Component } from 'react'
+import ReactSearchBox from 'react-search-box'
+import { getGeoJSONdata } from './map'
 
-const Input = ({ ...rest }) => {
-  return (
-    <>
-      <input className="input" {...rest} />
+class Input extends Component {
+  constructor() {
+    super();
+    this.state = { data: [] };
+  }
+
+  componentDidMount() {
+    getGeoJSONdata().then((res) => {
+      this.setState({ data: res["features"].map(kneipe => ({ key: kneipe.id, value: kneipe.properties["addr:city"] ? kneipe.properties.name + " (" + kneipe.properties["addr:city"] + ")" : kneipe.properties.name , kneipe: kneipe}))});
+    })
+  }
+
+  render() {
+    return (
+      <>
+      <ReactSearchBox
+        placeholder="Suche deine Lieblingskneipe"
+        data={this.state.data}
+        onSelect={record => window.location = "/stream/" + encodeURIComponent(record.key) }
+        fuseConfigs={{
+          threshold: 0.05,
+          minMatchCharLength: 3,
+
+        }}
+        value=""
+      />
       <style>{`
-      .input::placeholder {
-        color: #F8F5EEAA;
-      }
-      .input{
-        font-size: 1em;
-        color: #F8F5EE;
-        border: none;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        background: #546067;
-        border-radius: 10px;
-        outline: none;
-        padding: .75em;
-        border-bottom: 2px solid #fff;
-      }
-    `}</style>
-    </>
-  )
+        .react-search-box-dropdown-list-item {
+          color: black;
+        }
+      `}</style>
+      </>
+    )
+  }
 }
 
 export { Input }
